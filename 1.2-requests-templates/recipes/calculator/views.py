@@ -31,35 +31,32 @@ DATA = {
 
 
 def recipes(request, dish):
-    servings = request.GET.get('servings', 1)
-    dish_list = ['omlet', 'pasta', 'buter']
-    if dish in dish_list:
-        if dish == 'omlet':
-            context = {
-                'recipe': {
-                    'яйца, шт': 2 * int(servings),
-                    'молоко, л': 0.1 * int(servings),
-                    'соль, ч.л.': 0.5 * int(servings),
-                }
-            }
+    servings = int(request.GET.get('servings', 1))
+    recipe = {}
+    if dish == 'omlet':
+        for ingredient, amount in DATA['omlet'].items():
+            recipe[ingredient] = amount * servings
+        context = {
+            'recipe':
+                recipe
+        }
 
-        if dish == 'pasta':
-            context = {
-                'recipe': {
-                    'макароны, г': 0.3 * int(servings),
-                    'сыр, г': 0.05 * int(servings),
-                }
-            }
+    elif dish == 'pasta':
+        for ingredient, amount in DATA['pasta'].items():
+            recipe[ingredient] = amount * servings
+        context = {
+            'recipe':
+                recipe
+        }
 
-        if dish == 'buter':
-            context = {
-                'recipe': {
-                    'хлеб, ломтик': 1 * int(servings),
-                    'колбаса, ломтик': 1 * int(servings),
-                    'сыр, ломтик': 1 * int(servings),
-                    'помидор, ломтик': 1 * int(servings),
-                }
-            }
+    elif dish == 'buter':
+        for ingredient, amount in DATA['buter'].items():
+            recipe[ingredient] = amount * servings
+        context = {
+            'recipe':
+                recipe
+        }
+
     else:
         context = {}
     return render(request, 'calculator/index.html', context)
