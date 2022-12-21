@@ -16,18 +16,7 @@ DATA = {
         'сыр, ломтик': 1,
         'помидор, ломтик': 1,
     },
-    # можете добавить свои рецепты ;)
 }
-
-# Напишите ваш обработчик. Используйте DATA как источник данных
-# Результат - render(request, 'calculator/index.html', context)
-# В качестве контекста должен быть передан словарь с рецептом:
-# context = {
-#   'recipe': {
-#     'ингредиент1': количество1,
-#     'ингредиент2': количество2,
-#   }
-# }
 
 
 def recipes(request, dish):
@@ -40,7 +29,6 @@ def recipes(request, dish):
             'recipe':
                 recipe
         }
-
     elif dish == 'pasta':
         for ingredient, amount in DATA['pasta'].items():
             recipe[ingredient] = amount * servings
@@ -48,7 +36,6 @@ def recipes(request, dish):
             'recipe':
                 recipe
         }
-
     elif dish == 'buter':
         for ingredient, amount in DATA['buter'].items():
             recipe[ingredient] = amount * servings
@@ -56,7 +43,6 @@ def recipes(request, dish):
             'recipe':
                 recipe
         }
-
     else:
         context = {}
     return render(request, 'calculator/index.html', context)
