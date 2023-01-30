@@ -42,4 +42,12 @@ class AdvertisementSerializer(serializers.ModelSerializer):
 
         # TODO: добавьте требуемую валидацию
 
+        if data.get('status') == 'CLOSED':
+            return data
+        advertisements_open = Advertisement.objects.filter(
+            creator=self.context["request"].user,
+            status='OPEN'
+        )
+        if advertisements_open.count() >= 10:
+            raise serializers.ValidationError('Максимум открытых объявлений - 10')
         return data
