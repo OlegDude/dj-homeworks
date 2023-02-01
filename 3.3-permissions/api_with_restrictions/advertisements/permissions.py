@@ -16,7 +16,6 @@ class IsAdminOwnerOrReadOnly(permissions.BasePermission):
 class IsOwnerReadDraft(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
-        print(request)
         if request.method in permissions.SAFE_METHODS:
             if obj.status == 'DRAFT':
                 return obj.creator.id == request.user.id or request.user.is_staff
